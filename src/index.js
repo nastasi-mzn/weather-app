@@ -30,6 +30,40 @@ function formatDay(timestamp) {
   return days[day];
 }
 
+function displayForecast(response) {
+  let forecast = response.data.daily;
+  let forecastElement = document.querySelector("#forecast");
+  let forecastHTML = `      <div class="card-group w-80 p-3 text-center grid gap-0 column-gap-3">
+`;
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `  <div class="card object-fit-sm-contain border rounded">
+          <div class="card-body">
+            <h5 class="card-title">${formatDay(forecastDay.dt)}</h5>
+          <img class="fs-1 text-center" id="icon" src="https://openweathermap.org/img/wn/${
+            forecastDay.weather[0].icon
+          }@2x.png"></img>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">${Math.round(
+              forecastDay.temp.max
+            )}º</small>
+          </div>
+        </div> `;
+    }
+  });
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coords) {
+  let apiKey = "cabdbda40038ba7d1165b953b1c7bd6c";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.lat}&lon=${coords.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
+}
+
 function displayWeatherCondition(response) {
   let temperatureElement = document.querySelector("#temperature");
   let celsiusTemperature = response.data.main.temp;
@@ -75,6 +109,7 @@ function displayWeatherCondition(response) {
     let temperatureElement = document.querySelector("#temperature");
     temperatureElement.innerHTML = Math.round(celsiusTemperature);
   }
+  getForecast(response.data.coord);
 }
 
 function searchCity(city) {
