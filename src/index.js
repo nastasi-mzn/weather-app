@@ -47,11 +47,37 @@ function displayForecast(response) {
           }@2x.png"></img>
           </div>
           <div class="card-footer">
-            <small class="text-muted">${Math.round(
+            <small class="text-muted" id="forecastTemperature" >${Math.round(
               forecastDay.temp.max
             )}º</small>
           </div>
         </div> `;
+
+      let forecastCelsiusTemp = forecastDay.temp.max;
+      let fahrenheitLink = document.querySelector("#fahrenheit-link");
+      fahrenheitLink.addEventListener("click", convertForecastToFahrenheit);
+
+      let celsiusLink = document.querySelector("#celsius-link");
+      celsiusLink.addEventListener("click", convertForecastToCelsius);
+
+      function convertForecastToFahrenheit(event) {
+        event.preventDefault();
+        let forecastTemperatureElement = document.querySelector(
+          "#forecastTemperature"
+        );
+        let forecastFahrenheitTemperature = (forecastCelsiusTemp * 9) / 5 + 32;
+        forecastTemperatureElement.innerHTML = Math.round(
+          forecastFahrenheitTemperature
+        );
+      }
+
+      function convertForecastToCelsius(event) {
+        event.preventDefault();
+        let forecastTemperatureElement = document.querySelector(
+          "#forecastTemperature"
+        );
+        forecastTemperatureElement.innerHTML = Math.round(forecastCelsiusTemp);
+      }
     }
   });
   forecastHTML = forecastHTML + `</div>`;
