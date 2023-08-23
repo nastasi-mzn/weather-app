@@ -1,13 +1,8 @@
-.current {
-  font-size: 35px;
-  weight: 15px;
+.temperature-weather .active {
+  color: black;
+  cursor: default;
+  text-decoration: none;
 }
-.daytime {
-  font-size: 25px;
-}
-.currentweather {
-  font-size: 25px;
-}
-.gitlink {
-  font-size: 50px;
+.temperature-weather .active:hover {
+  text-decoration: none;
 }
